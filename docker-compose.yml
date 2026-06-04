@@ -17,7 +17,7 @@ services:
   telegraf:
     image: telegraf:latest
     ports:
-      - "8080:8080" # Fundamental: abre a porta para o Windows enxergar o Telegraf
+      - "8081:8080" # Fundamental: abre a porta para o Windows enxergar o Telegraf
     environment:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
