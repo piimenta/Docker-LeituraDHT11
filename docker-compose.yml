@@ -1,5 +1,12 @@
 version: '3'
 services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1883:1883" # Porta padrão do MQTT que o ESP vai acessar
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
   influxdb:
     image: influxdb:latest
     ports:
@@ -16,8 +23,6 @@ services:
 
   telegraf:
     image: telegraf:latest
-    ports:
-      - "8081:8080" # Fundamental: abre a porta para o Windows enxergar o Telegraf
     environment:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFLUX_ORG=${INFLUX_ORG}
@@ -26,6 +31,7 @@ services:
       - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on:
       - influxdb
+      - mosquitto
 
   grafana:
     image: grafana/grafana:latest
